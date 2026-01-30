@@ -1,0 +1,23 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #fff5f8;
+  text-align: center;
+}
+
+.page {
+  min-height: 100vh;
+  padding: 80px 20px;
+}
+
+.hero {
+  background: linear-gradient(#ff9a9e, #fad0c4);
+  color: white;
+}
+
+input, select, button {
+  width: 80%;
+  padding: 12px;
+  margin: 10px;
+  font-size: 16px;
+}
