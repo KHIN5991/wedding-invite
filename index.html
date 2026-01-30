@@ -3,47 +3,198 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Our Wedding</title>
+<title>Ye & Hay Wedding</title>
 
-<link rel="stylesheet" href="style.css">
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
 
-<!-- AOS Animation -->
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+/* COVER PAGE */
+#coverPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: linear-gradient(#ff9a9e, #fad0c4);
+  color: white;
+  position: relative;
+  text-align: center;
+}
+
+#coverPage h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+#playBtn {
+  font-size: 80px;
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.3); }
+}
+
+/* MAIN PAGE */
+#mainPage {
+  display: none;
+  padding: 50px 20px;
+  min-height: 100vh;
+  background: #fff0f5;
+  text-align: center;
+}
+
+/* Images & messages */
+.slide-img {
+  max-width: 80%;
+  border-radius: 20px;
+  margin: 20px 0;
+}
+
+.message {
+  font-size: 18px;
+  margin: 10px 0;
+  color: #ff3366;
+}
+
+.gallery {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.gallery img {
+  width: 150px;
+  border-radius: 15px;
+  transition: transform 0.3s;
+}
+
+.gallery img:hover {
+  transform: scale(1.1);
+}
+
+/* Floating hearts container */
+#heartContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* hearts won’t block scroll */
+  z-index: 999;
+}
+
+.heart {
+  position: absolute;
+  bottom: 0;
+  width: 20px;
+  height: 20px;
+  background: red;
+  transform: rotate(45deg);
+  animation: floatUp linear forwards;
+}
+
+.heart::before,
+.heart::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: red;
+  border-radius: 50%;
+}
+
+.heart::before { top: -10px; left: 0; }
+.heart::after { left: 10px; top: 0; }
+
+@keyframes floatUp {
+  0% { transform: translateY(0) rotate(45deg); opacity: 1; }
+  100% { transform: translateY(-100vh) rotate(45deg); opacity: 0; }
+}
+</style>
 </head>
-
 <body>
 
-<audio id="bgm" loop>
-  <source src="I_Choose_You.mp3" type="audio/mpeg">
-</audio>
-
-<div class="page hero" data-aos="fade-up">
-  <h1>💍 Ye & Hay</h1>
-  <p>We are getting married</p>
-  <p class="date">12 February 2026</p>
+<!-- Cover Page -->
+<div id="coverPage">
+  <h1>💖 Welcome 💖</h1>
+  <button id="playBtn">❤️</button>
+  <p>Tap the heart to enter</p>
 </div>
 
-<div class="page" data-aos="fade-up">
+<!-- Main Page -->
+<div id="mainPage">
+  <h1>💍 Ye & Hay</h1>
+  <p class="message">"Love is composed of a single soul inhabiting two bodies." ❤️</p>
+  <img src="images/couple1.jpg" class="slide-img">
+
   <h2>Wedding Details</h2>
   <p>📍 Novotel Hotel Yangon</p>
   <p>⏰ 9:00 AM to 11:00 AM</p>
+  <img src="images/venue.jpg" class="slide-img">
+
+  <h2>Love Gallery</h2>
+  <div class="gallery">
+    <img src="images/couple2.jpg">
+    <img src="images/couple3.jpg">
+    <img src="images/couple4.jpg">
+  </div>
 </div>
 
-<div class="page" data-aos="fade-up">
-  <h2>💌 RSVP</h2>
-  <form>
-    <input placeholder="Your Name">
-    <select>
-      <option>Will Attend</option>
-      <option>Cannot Attend</option>
-    </select>
-    <button type="submit">Submit</button>
-  </form>
-</div>
+<!-- Floating hearts container -->
+<div id="heartContainer"></div>
 
-<script src="script.js"></script>
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>AOS.init();</script>
+<!-- Music -->
+<audio id="bgm1" loop>
+  <source src="cover_song.mp3" type="audio/mpeg">
+</audio>
+<audio id="bgm2" loop>
+  <source src="main_song.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const coverPage = document.getElementById('coverPage');
+const mainPage = document.getElementById('mainPage');
+const playBtn = document.getElementById('playBtn');
+const bgm1 = document.getElementById('bgm1');
+const bgm2 = document.getElementById('bgm2');
+const heartContainer = document.getElementById('heartContainer');
+
+// Function to create heart
+function createHeart() {
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.animationDuration = 2 + Math.random() * 3 + 's';
+    heartContainer.appendChild(heart);
+    setTimeout(() => heart.remove(), 5000);
+}
+
+// Start hearts every 0.5s
+setInterval(createHeart, 500);
+
+// Cover page click
+playBtn.addEventListener('click', () => {
+  coverPage.style.display = 'none';
+  mainPage.style.display = 'block';
+  document.body.style.overflowY = 'auto'; // enable scroll
+
+  // Stop cover music, play main music
+  bgm1.pause();
+  bgm2.play();
+});
+</script>
 
 </body>
 </html>
